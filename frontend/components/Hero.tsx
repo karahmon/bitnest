@@ -1,10 +1,12 @@
 'use client';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession} from 'next-auth/react';
 import { Button } from "./ui/Button";
+import { useRouter } from 'next/navigation';
 
 
 const Hero=()=>{
     const { data: session } = useSession();
+    const router = useRouter();
 return(
     <>
     <div className='items-center'>
@@ -18,10 +20,19 @@ return(
         <h4 className="text-center">Create Your Wallet in Few Click's</h4>
         </div>
         <div className='flex items-center justify-center'>
-                    <Button className="flex items-center space-x-2 py-3 m-5 w-[250px] h-11 font-extrabold text-lg bg-blue-700 rounded-xl" onClick={() => signIn()}>
+        {session?.user ? (
+            <Button className="flex items-center space-x-2 py-3 m-5 w-[250px] h-11 font-extrabold text-lg bg-blue-700 rounded-xl" onClick={() =>{router.push('/dashboard')}}>
+           
+            <p>Go to Dashboard</p>
+           
+             </Button>      
+        ):(
+            <Button className="flex items-center space-x-2 py-3 m-5 w-[250px] h-11 font-extrabold text-lg bg-blue-700 rounded-xl" onClick={() => signIn()}>
                         <img className="h-7 w-7" src="https://tiplink.io/logos/google.svg" alt="Google logo" />
                         <p>Sign Up with Google</p>
                     </Button>
+        )
+    } 
                 
              </div>
         </div>
